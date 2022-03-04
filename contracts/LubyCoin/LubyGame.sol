@@ -29,8 +29,6 @@ contract LubyGame is ERC20, Ownable {
 	}
 
 	function startGame(uint256 amount) public {
-		// TransferFrom é para tirar da carteira (precisa aprovação) e mandar para o contrato.
-
 		bank.transferFrom(msg.sender, address(this), amount);
 
 		individualBalance[msg.sender] += amount;
@@ -39,23 +37,15 @@ contract LubyGame is ERC20, Ownable {
 	}
 
 	function correctAnswer(uint256 amount) public virtual {
-		// require(individualBalance[msg.sender] > 0, "Invidual balance is 0");
 		uint256 value = amount;
 
-		// Transfer é para mover do contrato e enviar para uma carteira.
-		// bank.transfer(msg.sender, value);
 		individualBalance[msg.sender] += value;
-		//bank.discountBalanceIndividual(msg.sender, amount);
 	}
 
 	function incorrectAnswer(uint256 amount) public virtual {
-		// require(individualBalance[msg.sender] > 0, "Invidual balance is 0");
 		uint256 value = amount;
 
-		// Transfer é para mover do contrato e enviar para uma carteira.
-		// bank.transfer(msg.sender, value);
 		individualBalance[msg.sender] -= value;
-		//bank.discountBalanceIndividual(msg.sender, amount);
 	}
 
 	function withdraw() public onlyOwner {
@@ -84,44 +74,4 @@ contract LubyGame is ERC20, Ownable {
 	function getBalanceIndividual() public view returns (uint256 balance) {
 		return individualBalance[msg.sender];
 	}
-
-	// function winGame(address _tokenContract, uint256 bonus)
-	// 	public
-	// 	returns (uint256)
-	// {
-	// 	require(individualBalance[msg.sender] > 0, "Invidual balance is 0");
-	// 	uint256 value = individualBalance[msg.sender];
-
-	// 	ILBC tokenContract = ILBC(_tokenContract);
-
-	// 	tokenContract.transfer(msg.sender, value + bonus);
-	// 	// tokenContract.transfer(msg.sender, value + bonus);
-
-	// 	individualBalance[msg.sender] = 0;
-	// 	balances -= value;
-	// 	return value;
-	// }
-
-	// function withdraw(address _tokenContract) public onlyOwner {
-	// 	// require(balances > 0, "Balance is 0");
-
-	// 	ILBC tokenContract = ILBC(_tokenContract);
-
-	// 	tokenContract.transfer(msg.sender, balances);
-
-	// 	// This transfer only ETHER
-	// 	// payable(owner()).transfer(balances);
-
-	// 	emit WithDraw(msg.sender, balances);
-
-	// 	balances = 0;
-	// }
-
-	// function getBalance() public view onlyOwner returns (uint256) {
-	// 	return balances;
-	// }
-
-	// function getBalanceIndividual() external view returns (uint256) {
-	// 	return individualBalance[msg.sender];
-	// }
 }

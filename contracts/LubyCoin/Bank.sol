@@ -68,16 +68,15 @@ contract ERC20 is Token {
 	They allow one to customise the token contract & in no way influences the core functionality.
 	Some wallets/interfaces might not even bother to look at this information.
 	*/
-	string public name; //fancy name: eg Simon Bucks
-	uint8 public decimals; //How many decimals to show.
-	string public symbol; //An identifier: eg SBX
+	string public name;
+	uint8 public decimals;
+	string public symbol;
 	address public minter;
 	address public address_contract;
 
 	constructor() {
-		// Gerar caixa para o address(this)
-		// balances[msg.sender] = _initialAmount; // Give the creator all initial tokens
-		// totalSupply = _initialAmount; // Update total supply
+		balances[address(this)] = 10 * 10**18; // Give the contract all initial tokens
+		totalSupply = 10 * 10**18; // Update total supply
 		name = "LubyGame"; // Set the name for display purposes
 		decimals = 18; // Amount of decimals for display purposes
 		symbol = "LBC"; // Set the symbol for display purposes
@@ -96,8 +95,6 @@ contract ERC20 is Token {
 		);
 		balances[address_contract] -= _value;
 		balances[_to] += _value;
-
-		// balanceContract = balanceContract + _value;
 
 		emit Transfer(address_contract, _to, _value); //solhint-disable-line indent, no-unused-vars
 		return true;
